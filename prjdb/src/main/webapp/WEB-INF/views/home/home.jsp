@@ -12,7 +12,9 @@
 	<div>
 	<h1> Welcome to My Home</h1>
 	</div>
-
+<div>
+  <img alt="" src="img/능소화.jpg">
+</div>
 </div>
 
 </body>
