@@ -14,13 +14,13 @@
 </select>
 
 <insert id="noticeInsert">
-	<selectKey keyProperty="id" resultType="int" order="BEFORE">
-	SELECT NVL(MAX(NOTICE_ID),1)+1 AS ID
+	<selectKey keyProperty="noticeId" resultType="int" order="BEFORE">
+	SELECT NVL(MAX(NOTICE_ID),0)+1 AS ID
 	FROM NOTICE
 	</selectKey>
 	
 	INSERT INTO NOTICE
-	VALUES(#{id}, #{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{noticeDate},0,#{noticeHit}, #{noticeAttech}, #{noticeImage}, #{noticeWriterName})
+	VALUES(#{noticeId}, #{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{noticeDate},0,#{noticeAttech}, #{noticeImage}, #{noticeWriterName},#{noticeThumb})
 </insert>
 
 <update id="noticeUpdate"></update>

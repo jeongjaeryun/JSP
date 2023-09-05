@@ -27,8 +27,7 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public int noticeInsert(NoticeVO vo) {
-		map.noticeInsert(vo);
-		return 0;
+		return map.noticeInsert(vo);
 	}
 
 	@Override
