@@ -26,7 +26,7 @@
 					<tr>
 						<th>이미지</th>
 						<td colspan="5">
-						<img src="attech/notice/${n.noticeImage }">
+						<img height ="50px" src="attech/notice/${n.noticeImage }">
 						</td>
 					</tr>
 					<tr>
