@@ -13,13 +13,15 @@ a {
 	text-decoration: none;
 	font-size: 14px
 }
-
+#noticeTitle{
+	margin: 20px 0;
+}
 .menu {
 	/*width: 800px;*/
 	display: flex;
 	justify-content: center;
 	overflow: hidden;
-	margin: 150px auto;
+	/*margin: 150px auto;*/
 	
 }
 

@@ -11,7 +11,7 @@
 		<div align="center">
 			<jsp:include page="../menu/header.jsp" />
 			<div>
-				<h1>게시글 상세보기</h1>
+				<h1 id = "noticeTitle">게시글 상세보기</h1>
 			</div>
 			<div>
 				<div>
@@ -194,7 +194,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 				if (data.retCode == 'Success') {
 					let tr= makeTr(data.data);
 					document.querySelector('#replyList').appendChild(tr);
-					fieldInit();
+					fieldInit();//댓글등록후창비우기
 					/* let tr = document.createElement('tr');
 					tr.setAttribute('rid', data.data.replyId);
 					for (let prop of fields) {
@@ -247,7 +247,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 				 modal.style.display = "none";
 
 			})
-		 // When the user clicks anywhere outside of the modal, close it
+		    // When the user clicks anywhere outside of the modal, close it
 				window.onclick = function(event) {
 					var modal = document.getElementById("myModal");
 				
@@ -262,12 +262,16 @@ body {font-family: Arial, Helvetica, sans-serif;}
 			function editReplyHandler(e){
 				//Ajax 호출(db변경) / 화면 수정.
 				let rid = document.querySelector('#myModal p').innerText;
-				let content = document.querySelector('#myModal input').value;
+				let content = document.querySelector('#myModal input.content').value;
 				replyObj.replyModify({rid:rid, reply:content}, function (data) {
 					console.log(data);
-				let oldTr = document.querySelector('tr[rid="'+rid+'"]') //rid라고 하는 속성중에 그 값을가지고 있는 tr을 찾아오겠다
-				let newTr = makeTr(data.data);
-				document.querySelector('#replyList').replaceChild(newTr,oldTr); //replaceChild(,)새로 만든 Tr을 oldTr로 바꾸겠다
+				if(data.retCode == 'Success'){
+					let oldTr = document.querySelector('tr[rid="'+rid+'"]') //rid라고 하는 속성중에 그 값을가지고 있는 tr을 찾아오겠다
+					let newTr = makeTr(data.data);
+					document.querySelector('#replyList').replaceChild(newTr,oldTr); //replaceChild(바꿀새로운값,바뀔값)새로 만든 Tr을 oldTr로 바꾸겠다
+				}else{
+					alert('처리중 오류'); 
+				}
 				//modal닫기
 				var modal = document.getElementById("myModal");
 				modal.style.display = "none";
