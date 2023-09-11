@@ -92,11 +92,16 @@
     });
 
     //하나라도 선택해제 하면 전체선택해제 되도록
-    $('tbody input:checkbox').on('change', function(e){
-      // $('thead input:checkbox').prop('checked', e.target.checked);
-      $('tbody input:checkbox').prop('checked', e.target.checked);
+    $('tbody input[type ="checkbox"]').on('change', function(e){
+    //  console.log($('tbody input[type ="checkbox"]').length);
+    //  console.log($('tbody input[type ="checkbox"]:checked'));
+   	if($('tbody input[type ="checkbox"]').length == $('tbody input[type ="checkbox"]:checked') ){
+		   $('thead input:checkbox').prop('checked', true);
+	   }else{
+		   $('thead input:checkbox').prop('checked', false);
+	   }
 
-    })
+    });
 
 
   </script>
