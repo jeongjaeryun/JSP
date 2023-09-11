@@ -10,8 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import co.yedam.prjdb.notice.service.ReplyService;
-import co.yedam.prjdb.notice.serviceImpl.ReplyServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import co.yedam.prjdb.notice.service.EventService;
+import co.yedam.prjdb.notice.service.EventVO;
+import co.yedam.prjdb.notice.serviceImpl.EventServiceImpl;
 
 /**
  * Servlet implementation class AjaxEventAdd
@@ -36,12 +39,32 @@ public class AjaxEventAdd extends HttpServlet {
 		String start = request.getParameter("start");
 		String end = request.getParameter("end");
 		
-		ReplyService svc = new ReplyServiceImpl();
-		Map<String, Object> map = new HashMap<String, Object>();
+		EventVO vo = new EventVO();
+		vo.setTitle(title);
+		vo.setStartDate(start);
+		vo.setEndDate(end);
+		
+		EventService svc = new EventServiceImpl();
+		Map<String, Object> map = new HashMap<>();
+		
+		if(svc.eventInsert(vo)) {
+			map.put("retCode", "Success");
+			map.put("data", vo);
+		}else {
+			map.put("retCode", "Fail");
+		}
+		
+		ObjectMapper mapp = new ObjectMapper();
+		String json = mapp.writeValueAsString(map);
+		
+		response.setContentType("text/json;charset=utf-8");
+		response.getWriter().print(json);
+
+	}
 		
 
 	
-	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

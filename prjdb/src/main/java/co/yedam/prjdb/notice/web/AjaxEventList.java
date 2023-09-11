@@ -1,6 +1,7 @@
 package co.yedam.prjdb.notice.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class AjaxEventList extends HttpServlet {
     }
 
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		EventService dao = new EventServiceImpl();
 		List<EventVO> events = new ArrayList<EventVO>();
 		
@@ -35,17 +36,12 @@ public class AjaxEventList extends HttpServlet {
 		
          events = dao.eventSelectList();
 		
-		if(events != null) {
+		
 			String json = objectMapper.writeValueAsString(events);
 			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().print(json);
-		} else {
-			System.out.println("ajaxEventList.do 오류발생");
-		}
-		
-		
-		
-		
+			PrintWriter out= response.getWriter();
+			out.print(json);
+
 		
 	}
 

@@ -8,4 +8,9 @@
 <select id="select" resultType="co.yedam.prjdb.notice.service.EventVO">
 
 </select>
+
+<insert id="eventInsert" parameterType="co.yedam.prjdb.notice.service.EventVO">
+	INSERT INTO EVENTS(TITLE, START_DATE, END_DATE)
+	VALUES(#{title}, #{startDate}, #{endDate})
+</insert>
 </mapper>

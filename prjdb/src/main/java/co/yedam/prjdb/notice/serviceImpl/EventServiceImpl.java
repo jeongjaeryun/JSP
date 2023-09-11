@@ -21,8 +21,8 @@ public class EventServiceImpl implements EventService {
 		return map.eventSelect(vo);
 	}
 	@Override
-	public int eventInsert(EventVO vo) {
-		return map.eventInsert(vo);
+	public boolean eventInsert(EventVO vo) {
+		return false;
 	}
 	@Override
 	public int eventUpdate(EventVO vo) {
