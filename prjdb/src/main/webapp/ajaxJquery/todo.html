@@ -1,10 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <!DOCTYPE html>
   <html>
 
   <head>
-<meta charset="UTF-8">
-  <title>todoList.html</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>todoList.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       body {
@@ -165,50 +166,44 @@
       $('#myUL').on('click', 'li', function (e) {
         $(e.currentTarget).toggleClass('checked');
       })
-      // var list = document.querySelector('ul');
-      // list.addEventListener('click', function(ev) {
-      //   if (ev.target.tagName === 'LI') {
-      //     ev.target.classList.toggle('checked');
-      //   }
-      // }, false);
 
+      //순번붙이기
+      let no = 1;
+      function numbering() {
+        no = 1;
+        $('li').each(function (idx, item) {
+          if (item.style.disply != 'none') {
+            $(item).prepend($('<span />').text(no++ + ", ").addClass('seq'))
+
+          }
+        })
+      }
+      numbering();
       // Create a new list item when clicking on the "Add" button
       function newElement() {
-		
-		$('.addBtn').on('click', function(e){
-			
-		})
-		
-		
-        var li = document.createElement("li");
-        var inputValue = document.getElementById("myInput").value;
-        var t = document.createTextNode(inputValue);
-        li.appendChild(t);
-        if (inputValue === '') {
-          alert("You must write something!");
-        } else {
-          document.getElementById("myUL").appendChild(li);
+        if (!$('#myInput').val() || !$('myInput').val()) {
+          alert('you muuuuust write someting!');
+          return;
         }
-        document.getElementById("myInput").value = "";
+        $('#myUL').append( //
+          $('<li />').text($('#myInput').val() + " (Due: " + $('#myDue').val() + ")") //
+            .append($('<span />').text("\u00D7").addClass('close')) //
+        )
+        numbering();
+        $('.close').on('click', function (e) {
+          $(this).parent().css('display', 'none');
+          numbering();
+        })
+        // 입력값 초기화.
+        $('#myInput').val('');
+        $('#myDue').val('');
 
-        var span = document.createElement("SPAN");
-        var txt = document.createTextNode("\u00D7");
-        span.className = "close";
-        span.appendChild(txt);
-        li.appendChild(span);
-
-        for (i = 0; i < close.length; i++) {
-          close[i].onclick = function () {
-            var div = this.parentElement;
-            div.style.display = "none";
-          }
-        }
       }
     </script>
 
   </body>
 
   </html>
-</body>
+  </body>
 
-</html>
+  </html>
