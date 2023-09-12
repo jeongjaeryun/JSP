@@ -8,7 +8,7 @@ public class ItemVO {
 	private String itemName;
 	private String itemContent;
 	private int itemPrice;
-	private int itemSalerate;
+	private int itemSaleRate;
 	private int itemStar;
 	private String itemImage;
 }
