@@ -87,7 +87,8 @@
     //checkbox 전체 선택, 해제 이벤트
     $('thead input:checkbox').on('change', function (e) {
       console.log(e.target.checked);
-      //$('tbody input:checkbox').attr('checked', e.target.checked);
+      //$('tbody input:checkbox').atta
+      ('checked', e.target.checked);
       $('tbody input:checkbox').prop('checked', e.target.checked); //true,false값 줄때는 attr보다 prop가 낫다...
     });
 

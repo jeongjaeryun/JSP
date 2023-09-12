@@ -133,7 +133,8 @@
 
 				// Automatically add a first row of data
 				//addNewRow();
-
+				
+				//삭제
 				table.on('click', 'tbody tr', (e) => {
 					let classList = e.currentTarget.classList;
 
