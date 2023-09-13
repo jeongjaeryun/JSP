@@ -31,19 +31,17 @@ public class productItem extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ItemService dao = new ItemServiceImpl();
-//		List<ItemVO> items = new ArrayList<ItemVO>();
-//		ObjectMapper objectMapper = new ObjectMapper();
 		ItemVO vo = new ItemVO();
-		vo.setItemId(Integer.valueOf(request.getParameter("itemId")));
-
 		
+		vo.setItemId(Integer.valueOf(request.getParameter("itemId")));
 		vo = dao.itemSelect(vo);
+		
 		request.setAttribute("p", vo);
 
-		String viewPage = "/boot-shop/item.jsp";
-//		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
-//	    dispatcher.forward(request, response);
-		ViewResolve.forward(request, response, viewPage);
+		String viewPage ="/boot-shop/item.jsp";
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
+		dispatcher.forward(request, response);
 	}
 
 	
