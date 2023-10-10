@@ -12,6 +12,18 @@
 			.booknav {
 				padding: 30px;
 			}
+			.input{
+				width: 600px;
+    			height: 30px;
+    			margin-top: 10px;
+			}
+			button{
+			padding:5px;
+			}
+			.firstTr{
+				background: #dcf1f5;
+}
+			}
 		</style>
 	</head>
 
@@ -45,16 +57,16 @@
 					</tr>
 					<tr>
 						<td colspan="2"><button class="addRow">저장</button>
-							<button class="delBtn" id="delBtn" name="delBtn" onclick="chooseDel(bookId)">선택삭제</button>
+							<button class="delBtn" id="delBtn" name="delBtn">선택삭제</button>
 						</td>
 					</tr>
 				</table>
 				<div>
 					<table id="example" class="display">
 						<thead>
-							<tr>
+							<tr class="firstTr">
 								<th class="booknav">
-									<input type="checkbox" id="check" name="check" />
+									<input type="checkbox" id="checkAll" name="check" />
 								</th>
 								<th class="booknav">도서코드</th>
 								<th class="booknav">도서명</th>
@@ -71,40 +83,36 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<script>
 			const bookObj = new Book(); //bookList()가 있음
 			bookObj.showInfo();
 			//목록
 			fetch('bookSelectList.do')
-			.then(resolve => resolve.json())
-			.then(bookList => {
-				let tbody = document.getElementsByTagName('#bookList');
-				let html ="";
-				for(let b in bookList){
-					console.log(bookList[b]);
-					html += '<tr>';
-					html += '<td><input type="checkbox"></td>';
-					html += '<td>'+bookList[b].bookCode +'</td>';
-					html += '<td>'+bookList[b].bookName +'</td>';
-					html += '<td>'+bookList[b].bookWriter +'</td>';
-					html += '<td>'+bookList[b].bookPublisher +'</td>';
-					html += '<td>'+bookList[b].bookPrice +'</td>';
-					html += '<td><button onclick="bookDel('+bookList[b].bookId+',this)">삭제</button></td>';
-					html +='</tr>'
-					
-				}
-				$('#bookList').append(html);
+				.then(resolve => resolve.json())
+				.then(bookList => {
+					let tbody = document.getElementsByTagName('#bookList');
+					let html = "";
+					for (let b in bookList) {
+						console.log(bookList[b]);
+						let tr = makeTr(bookList[b]);
+						document.querySelector('#bookList').appendChild(tr);
+						console.log('tr찍어봄');
+						/* html += '<tr>';
+						html += '<td><input type="checkbox"></td>';
+						html += '<td>' + bookList[b].bookCode + '</td>';
+						html += '<td>' + bookList[b].bookName + '</td>';
+						html += '<td>' + bookList[b].bookWriter + '</td>';
+						html += '<td>' + bookList[b].bookPublisher + '</td>';
+						html += '<td>' + bookList[b].bookPrice + '</td>';
+						html += '<td><button onclick="bookDel(' + bookList[b].bookId + ',this)">삭제</button></td>';
+						html += '</tr>'
+ */
+					}
 				
-			})
-			//목록
-		/* 	const fields = ['bookCode', 'bookName', 'bookWriter', 'bookPublisher', 'bookPrice'];
-			bookObj.bookList(function (data) {
-				data.forEach(function (book) {
-					let tr = makeTr(book);
-					document.querySelector('#bookList').appendChild(tr);
+
 				})
-			})*/
+			
 			//tr생성
 			const fields = ['bookCode', 'bookName', 'bookWriter', 'bookPublisher', 'bookPrice'];
 			function makeTr(book) {
@@ -113,11 +121,19 @@
 				let td = document.createElement('td');
 				//체크박스
 				let check = document.createElement('input');
-				check.setAttribute('type','checkbox');
+				check.setAttribute('type', 'checkbox');
+				//td.append(check);
+				//tr.append(td);
+				//체크박스 속성 / data-사용자속성 정의
+				check.setAttribute('data-bid', book.bookId);
+				check.setAttribute('class', 'book_chk');
 				td.append(check);
 				tr.append(td);
+
 				for (let prop of fields) {
+					
 					let td = document.createElement('td');
+					console.log(book[prop]);
 					td.innerText = book[prop];
 					tr.append(td);
 				}
@@ -127,58 +143,45 @@
 				btn.addEventListener('click', bookDel);
 				td.appendChild(btn);
 				tr.appendChild(td);
+				
 				return tr;
-			} 
-			//등록
-		/* 	function bookAdd() {
-				{
-					table.row
-						.add({
-							bookCode: $('input[name=bCode]').val(),
-							bookName: $('input[name=bName]').val(),
-							bookWriter: $('input[name=bWriter]').val(),
-							bookPublisher: $('input[name=bPublisher]').val(),
-							bookPrice: $('input[name=bPrice]').val()
-						})
-						.draw(false);
-				}
 			}
-			document.querySelector('.addRow').addEventListener('click', bookAdd); */
-			
+
+
 			//등록
 			document.querySelector('.addRow').addEventListener('click', function (e) {
-				let bookCode =document.querySelector('input[name=bCode]').value;
+				let bookCode = document.querySelector('input[name=bCode]').value;
 				let bookName = document.querySelector('input[name=bName]').value;
 				let bookWriter = document.querySelector('input[name=bWriter]').value;
 				let bookPublisher = document.querySelector('input[name=bPublisher]').value;
 				let bookPrice = document.querySelector('input[name=bPrice]').value;
-				const book = {bookCode:bookCode, bookName:bookName, bookWriter:bookWriter, bookPublisher:bookPublisher, bookPrice:bookPrice}
+				const book = { bookCode: bookCode, bookName: bookName, bookWriter: bookWriter, bookPublisher: bookPublisher, bookPrice: bookPrice }
 				console.log(book);
-				
-				bookObj.bookAdd(book, function (data) { 
+
+				bookObj.bookAdd(book, function (data) {
 					console.log('bookadd 들어옴')
 					console.log(data);
-				//등록 code here
-				
-				if (data.retCode == 'Success') {
-					let tr= makeTr(data.data);
-					document.querySelector('#bookList').appendChild(tr);
-					fieldInit();//댓글등록후창비우기
-					
-				} else if (data.retCode == 'Fail') {
-					alert("처리중 에러")
-				} else {
-					alert("잘못된코드반환")
-				}
-			})
+					//등록 code here
+
+					if (data.retCode == 'Success') {
+						let tr = makeTr(data.data);
+						document.querySelector('#bookList').appendChild(tr);
+						fieldInit();//댓글등록후창비우기
+
+					} else if (data.retCode == 'Fail') {
+						alert("처리중 에러")
+					} else {
+						alert("잘못된코드반환")
+					}
+				})
 			});
-			
+
 			function fieldInit() { //댓글등록후 창 비우기
-				document.querySelector('input[name=bCode]').value='';
-				document.querySelector('input[name=bName]').value='';
-				document.querySelector('input[name=bWriter]').value='';
-				document.querySelector('input[name=bPublisher]').value='';
-				document.querySelector('input[name=bPrice]').value='';
+				document.querySelector('input[name=bCode]').value = '';
+				document.querySelector('input[name=bName]').value = '';
+				document.querySelector('input[name=bWriter]').value = '';
+				document.querySelector('input[name=bPublisher]').value = '';
+				document.querySelector('input[name=bPrice]').value = '';
 			}
 
 
@@ -198,8 +201,8 @@
 					}
 				});
 			} */
-			function bookDel(bookId,obj){
-				bookObj.bookDelete(bookId,function(result){
+			function bookDel(bookId, obj) {
+				bookObj.bookDelete(bookId, function (result) {
 					console.log(result);
 					console.log(obj);
 					if (result.retCode == 'Success') {
@@ -211,8 +214,45 @@
 					}
 				})
 			}
-		//체크된거 삭제
-		
+			//체크된거 삭제
+			document.querySelector('#delBtn').addEventListener('click', function (e) {
+				let checkbox = document.querySelectorAll('.book_chk');
+				console.log('del들어오나요');
+				for (let c of checkbox) {
+					if (c.checked == true) {
+						let bookId = c.getAttribute('data-bid');
+						console.log(bookId);
+
+						bookObj.bookDelete(bookId, function (data) {
+							console.log(data);
+
+							if (data.retCode == 'Success') {
+								c.parentElement.parentElement.remove();
+							} else if (data.retCode == 'Fail') {
+								alert("처리중 에러.");
+							} else {
+								alert("잘못된코드반환.");
+							}
+						})
+					}
+				}
+			})
+
+			//전체 체크
+			document.querySelector('#checkAll').addEventListener('change', function (e) {
+				let checkbox = document.querySelectorAll('input[type=checkbox]');
+				console.log(e);
+				console.log(e.target.checked);
+				if (e.target.checked == true) {
+					for (let prop of checkbox) {
+						prop.checked = true;
+					}
+				} else {
+					for (let prop of checkbox) {
+						prop.checked = false;
+					}
+				}
+			})
 		</script>
 	</body>
 

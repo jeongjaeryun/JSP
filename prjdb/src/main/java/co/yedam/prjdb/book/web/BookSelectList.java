@@ -39,7 +39,7 @@ public class BookSelectList extends HttpServlet {
 		ObjectMapper objectMapper = new ObjectMapper(); 
 		String json = objectMapper.writeValueAsString(books);
 		
-		response.setContentType("text/html; charset=utf-8"); // 한글깨짐방지
+		response.setContentType("text/json; charset=utf-8"); // 한글깨짐방지
 		PrintWriter out = response.getWriter(); // json 문자열로 반환해줌
 		out.print(json);
 		
