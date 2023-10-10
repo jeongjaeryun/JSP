@@ -21,7 +21,7 @@
 				<li><a href="#">submenu05</a></li>
 			</ul> --></li>
 		<c:if test="${empty id }">
-			<li><a href="#">MENU4</a></li>
+			<li><a href="BookList.do">BOOK</a></li>
 			<li><a href="#">MENU5</a></li>
 			<li><a href="memberloginform.do">로그인</a></li>
 			<li><a href="productList.do">index보이게</a></li>
