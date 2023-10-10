@@ -12,17 +12,49 @@
 			.booknav {
 				padding: 30px;
 			}
-			.input{
+
+			.input {
 				width: 600px;
-    			height: 30px;
-    			margin-top: 10px;
+				height: 30px;
 			}
-			button{
-			padding:5px;
+
+			button {
+				padding: 5px;
 			}
-			.firstTr{
+
+			.firstTr {
 				background: #dcf1f5;
-}
+			}
+
+			.totalBtn {
+				text-align: right;
+			}
+
+			#bookTable {
+				margin-top: 50px;
+				margin-bottom: 20px;
+			}
+
+			#bookTable tbody {
+				display: flex;
+				flex-direction: column;
+				width: 700px;
+				gap: 10px;
+			}
+
+			#bookTable tbody tr {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				gap: 10px;
+			}
+
+			#bookTable tr th {
+				width: 70px;
+			}
+
+			#example td {
+				padding: 5px;
 			}
 		</style>
 	</head>
@@ -30,58 +62,58 @@
 	<body>
 		<div align="center">
 			<jsp:include page="../menu/header.jsp" />
+			<!-- <div align="center"> -->
+			<table id="bookTable">
+				<tr>
+					<th class="bookinsert">도서코드</th>
+					<td><input type="text" class="input" name="bCode"></td>
+				</tr>
+
+				<tr>
+					<th class="bookinsert">도서명</th>
+					<td><input type="text" class="input" name="bName"></td>
+				</tr>
+
+				<tr>
+					<th class="bookinsert">저자</th>
+					<td><input type="text" class="input" name="bWriter"></td>
+				</tr>
+
+				<tr>
+					<th>출판사</th>
+					<td class="bookinsert"><input type="text" class="input" name="bPublisher"></td>
+				</tr>
+				<tr>
+					<th class="bookinsert">금액</th>
+					<td><input type="text" class="input" name="bPrice"></td>
+				</tr>
+				<tr>
+					<td colspan="2" class="totalBtn"><button class="addRow">저장</button>
+						<button class="delBtn" id="delBtn" name="delBtn">선택삭제</button>
+					</td>
+				</tr>
+			</table>
 			<div>
-				<table>
-					<tr>
-						<th class="bookinsert">도서코드</th>
-						<td><input type="text" class="input" name="bCode"></td>
-					</tr>
+				<table id="example" class="display">
+					<thead>
+						<tr class="firstTr">
+							<th class="booknav">
+								<input type="checkbox" id="checkAll" name="check" />
+							</th>
+							<th class="booknav">도서코드</th>
+							<th class="booknav">도서명</th>
+							<th class="booknav">저자</th>
+							<th class="booknav">출판사</th>
+							<th class="booknav">금액</th>
+							<th class="booknav">삭제</th>
+						</tr>
 
-					<tr>
-						<th class="bookinsert">도서명</th>
-						<td><input type="text" class="input" name="bName"></td>
-					</tr>
-
-					<tr>
-						<th class="bookinsert">저자</th>
-						<td><input type="text" class="input" name="bWriter"></td>
-					</tr>
-
-					<tr>
-						<th>출판사</th>
-						<td class="bookinsert"><input type="text" class="input" name="bPublisher"></td>
-					</tr>
-					<tr>
-						<th class="bookinsert">금액</th>
-						<td><input type="text" class="input" name="bPrice"></td>
-					</tr>
-					<tr>
-						<td colspan="2"><button class="addRow">저장</button>
-							<button class="delBtn" id="delBtn" name="delBtn">선택삭제</button>
-						</td>
-					</tr>
+					</thead>
+					<tbody id="bookList" align="center">
+					</tbody>
 				</table>
-				<div>
-					<table id="example" class="display">
-						<thead>
-							<tr class="firstTr">
-								<th class="booknav">
-									<input type="checkbox" id="checkAll" name="check" />
-								</th>
-								<th class="booknav">도서코드</th>
-								<th class="booknav">도서명</th>
-								<th class="booknav">저자</th>
-								<th class="booknav">출판사</th>
-								<th class="booknav">금액</th>
-								<th class="booknav">삭제</th>
-							</tr>
-
-						</thead>
-						<tbody id="bookList" align="center">
-						</tbody>
-					</table>
-				</div>
 			</div>
+			<!-- </div> -->
 		</div>
 
 		<script>
@@ -109,15 +141,16 @@
 						html += '</tr>'
  */
 					}
-				
+
 
 				})
-			
+
 			//tr생성
 			const fields = ['bookCode', 'bookName', 'bookWriter', 'bookPublisher', 'bookPrice'];
 			function makeTr(book) {
 				console.log(book);
 				let tr = document.createElement('tr');
+				tr.setAttribute('class', 'listTr')
 				let td = document.createElement('td');
 				//체크박스
 				let check = document.createElement('input');
@@ -131,7 +164,7 @@
 				tr.append(td);
 
 				for (let prop of fields) {
-					
+
 					let td = document.createElement('td');
 					console.log(book[prop]);
 					td.innerText = book[prop];
@@ -143,7 +176,7 @@
 				btn.addEventListener('click', bookDel);
 				td.appendChild(btn);
 				tr.appendChild(td);
-				
+
 				return tr;
 			}
 
