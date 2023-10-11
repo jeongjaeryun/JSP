@@ -25,147 +25,152 @@ let basket = {
 	cartCount: 0,
 	cartTotal: 0,
 	delCheckedItem: function () {
-	// 선택된 상품을 삭제....금액을 재계산.
+		// 선택된 상품을 삭제....금액을 재계산.
 		document.querySelectorAll('input[name=buy]:checked').forEach(function (e) {
-            e.closest('.data').remove();
-        });
-         this.reCalc();
+			e.closest('.data').remove();
+		});
+		this.reCalc();
 	},
 	delAllItem: function () {
-	// 장바구니 비우기 하면 실행되도록..
-		 document.querySelectorAll('.row.data').forEach(function (e) {
-            e.remove();
-        });
-         this.reCalc();
+		// 장바구니 비우기 하면 실행되도록..
+		document.querySelectorAll('.row.data').forEach(function (e) {
+			e.remove();
+		});
+		this.reCalc();
 	},
 	reCalc: function () {
-	// 금액을 재계산.
+		// 금액을 재계산.
 		//수량
 		let count = document.querySelectorAll('.p_num');
 		let num = 0;
-		
-		count.forEach(function(e){
-			num += Number(e.value);
+
+		count.forEach(function (e) {
+			num += Number(e.value);  // Object.value =>객체의 배열을 리턴, Number()로 숫자로 변환
 		})
+
 		//수량
-		document.querySelector('div.sumcount').innerText = "상품갯수: "+num+"개";
+		document.querySelector('div.sumcount').innerText = "상품갯수: " + num + "개";
 		//합계
 		let sumList = document.querySelectorAll('div.sum');
 		num = 0;
-		sumList.forEach(function(e){
+		sumList.forEach(function (e) {
 			num += Number(e.getAttribute('data-sum'));
 		})
-		document.querySelector('div.summoney').innerText = "합계금액: "+num.formatNumber()+"원";
-	
+		document.querySelector('div.summoney').innerText = "합계금액: " + num.formatNumber() + "원";
+
 	},
 	updateUI: function () {
-	// 화면을 refresh.
+		// 화면을 refresh.
 	},
-	changePNum: function (e,type) {
-	// 수량변경. 
-/*		let up = document.querySelectorAll('#countUp');
-		let down = document.querySelectorAll('#countDown');*/
-		let countVal = e.target.closest('.updown').querySelector('.p_num');
-		
-		if(type=="up"){
-			countVal.value= Number(countVal.value)+ 1;
-		}else if(type=="down"){
-			if(Number(countVal.value)>1){
-			countVal.value= Number(countVal.value)- 1;
+	changePNum: function (e, type) {
+		// 수량변경. 
+		let countVal = e.target.closest('.updown').querySelector('.p_num');//수량칸
+		//e.target.closest('.updown') => e.target(클릭버튼)에서 클래스가 updown인 가장 가까운 조상
+		//console.log(countVal);
+		//closest : 요소의 태그에서 부모의 클래스나 아이디 값으로 접근
+
+		if (type == "up") {
+			countVal.value = Number(countVal.value) + 1;
+		} else if (type == "down") {
+			if (Number(countVal.value) > 1) {//최소 수량 1
+				countVal.value = Number(countVal.value) - 1;
 			}
-			
+
 		}
 		let price = e.target.closest('.data').querySelector('div.basketprice');
-		console.log(price.getAttribute('data-price'));
-		
-		let sum = price.getAttribute('data-price')*Number(countVal.value);
-		console.log(sum);
-		let totalSum=e.target.closest('.data').querySelector('.sum');
-		totalSum.setAttribute('data-sum',sum);
-		totalSum.innerText = sum;
+		//console.log(price.getAttribute('data-price'));
+
+		//합계(가격*수량)
+		let sum = price.getAttribute('data-price') * Number(countVal.value);
+		//console.log(sum);
+		let totalSum = e.target.closest('.data').querySelector('.sum');
+		console.log(totalSum);
+		//합계값을 가져올 수 있게 data-sum이란 속성을 만들어줌
+		totalSum.setAttribute('data-sum', sum);
+		totalSum.innerText = sum.formatNumber() + "원";
 		this.reCalc();
-		
+
 	},
 	delItem: function (e) {
-	// 삭제버튼 클릭시.
-		e.parentElement.parentElement.parentElement.remove();
+		// 삭제버튼 클릭시.
+		e.closest('.data').remove();
 		this.reCalc();
 	},
 	cartList: function () {
-	// 상품목록 출력...아래에 있는 상품정보를 활용해서 수량만큼 출력이 되도록.
+		// 상품목록 출력...아래에 있는 상품정보를 활용해서 수량만큼 출력이 되도록.
 		cartItems.forEach((item, idx) => {
 			let template = document.querySelector('div.row.data').cloneNode(true);
 			//이미지
 			let img = template.querySelector('.img>img');
-			img.src="./img/"+item.image;
+			img.src = "./img/" + item.image;
 			//let img = document.getElementById('pic').setAttribute('src', "./img/"+cartItems[idx].image);
 			//상품명
 			let pname = template.getElementsByClassName("pname")[0];
-			pname.innerText=item.productNm;
+			pname.innerText = item.productNm;
 			//상품가격
 			let price = template.getElementsByClassName("basketprice")[0];
-			price.innerText=(item.price).formatNumber()+"원";
-			price.setAttribute('data-price',item.price);
+			price.innerText = (item.price).formatNumber() + "원";
+			price.setAttribute('data-price', item.price);
 			/*
 			let sum = template.getElementsByClassName("sum")[0];
 			let num = template.querySelector('input[name=p_num1]').value;
 			sum.innerText = (item.price * num).formatNumber()+"원";*/
+
 			//수량(id,name,value,button)
-			
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[1].setAttribute('id','p_num'+item.no);
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[1].setAttribute('name','p_num'+item.no);
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[1].setAttribute('value',item.qty);
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[3].setAttribute('onclick','basket.changePNum(event, "up")');
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[3].setAttribute('id','countUp');
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[5].setAttribute('onclick','basket.changePNum(event, "down")');
-			template.childNodes[3].childNodes[3].childNodes[1].childNodes[5].setAttribute('id','countDown');
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[1].setAttribute('id', 'p_num' + item.no);
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[1].setAttribute('name', 'p_num' + item.no);
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[1].setAttribute('value', item.qty);
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[3].setAttribute('onclick', 'basket.changePNum(event, "up")');
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[3].setAttribute('id', 'countUp');
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[5].setAttribute('onclick', 'basket.changePNum(event, "down")');
+			template.childNodes[3].childNodes[3].childNodes[1].childNodes[5].setAttribute('id', 'countDown');
 
 			//합계
-			template.childNodes[3].childNodes[5].setAttribute('data-sum',item.price*item.qty);
-			template.childNodes[3].childNodes[5].innerText = (item.price*item.qty).formatNumber()+"원";
+			template.childNodes[3].childNodes[5].setAttribute('data-sum', item.price * item.qty);
+			template.childNodes[3].childNodes[5].innerText = (item.price * item.qty).formatNumber() + "원";
 			//삭제
-			template.childNodes[5].childNodes[1].childNodes[1].setAttribute('onclick','basket.delItem(this)');
+			template.childNodes[5].childNodes[1].childNodes[1].setAttribute('onclick', 'basket.delItem(this)');
 			document.querySelector('.basketdiv').append(template);
-			
+
 		})
-		document.querySelector('div.row.data').style.display="none";
+		document.querySelector('div.row.data').style.display = "none";
 		basket.reCalc();
 	}
 };
 
 var cartItems = [{
-		no: 1,
-		productNm: '장바구니1',
-		qty: 2,
-		price: 12000,
-		image: 'basket1.jpg'
-	},
-	{
-		no: 2,
-		productNm: '장바구니2',
-		qty: 1,
-		price: 22000,
-		image: 'basket2.jpg'
-	},
-	{
-		no: 3,
-		productNm: '고급장바구니',
-		qty: 1,
-		price: 13600,
-		image: 'basket3.jpg'
-	}
+	no: 1,
+	productNm: '장바구니1',
+	qty: 2,
+	price: 12000,
+	image: 'basket1.jpg'
+},
+{
+	no: 2,
+	productNm: '장바구니2',
+	qty: 1,
+	price: 22000,
+	image: 'basket2.jpg'
+},
+{
+	no: 3,
+	productNm: '고급장바구니',
+	qty: 1,
+	price: 13600,
+	image: 'basket3.jpg'
+}
 ]
-	
+
 
 
 
 basket.cartList();
 
-document.querySelector('#ckDel').addEventListener('click',function(e){
+document.querySelector('#ckDel').addEventListener('click', function (e) {
 	basket.delCheckedItem();
 })
 
-document.querySelector('#cartDel').addEventListener('click',function(e){
+document.querySelector('#cartDel').addEventListener('click', function (e) {
 	basket.delAllItem();
 })
 
