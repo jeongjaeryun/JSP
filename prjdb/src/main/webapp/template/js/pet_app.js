@@ -9,7 +9,7 @@ App = {
 				return res.json()
 			})
 			.then(obj => App.info(obj));
-
+ 
 	}, // end of init;
 	info: function(data){
 		data.forEach((item,idx)=>{
