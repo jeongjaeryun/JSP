@@ -4,7 +4,7 @@
 async function asyncFunc() {
   let memAry = [];
   let promise = await fetch('./MOCK_DATA.json'); //fetch('./MOCK_DATA.json')리턴하는 밸류값을 promise 변수에 저장 
-  let json = await promise.json();
+  let json = await promise.json(); //await 해줘야 순차적으로 진행됨
   console.log(json);
 
   memAry = json;
@@ -26,10 +26,10 @@ async function asyncFunc() {
       li.style.backgroundColor='purple';
     }
     
-    if (idx < 5) {
+    if (idx < 20) {
       ul.append(li);
     }
-    if (idx == 5) {
+    if (idx == 20) {
       acc.append(ul);
     }
     return acc;
