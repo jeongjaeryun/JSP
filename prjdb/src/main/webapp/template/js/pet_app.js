@@ -7,6 +7,7 @@ App = {
 		fetch("./json/pets.json")
 			.then((res) => {
 				return res.json()
+				
 			})
 			.then(obj => App.info(obj));
 		//console.log(App.adoptedAry); App.initMarkData();가 비동기라서(실행과 동시에 실행돼) 빈배열 나옴
