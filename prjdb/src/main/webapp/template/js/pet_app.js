@@ -16,8 +16,8 @@ App = {
 			console.log(item.name);
 			let template = document.querySelector('div.col-lg-3').cloneNode(true);
 			document.querySelector('#petsRow').append(template);
-		})
-	},
+		}) 
+	},//end of info
 	initContract: function() {
 		// initMarkData 호출.
 		// bindEvents 호출.
