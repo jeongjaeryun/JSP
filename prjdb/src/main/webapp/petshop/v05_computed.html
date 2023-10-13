@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v05_computed.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <input type="number" v-model="price">원<br>
+    <input type="number" v-model="cnt">개<br>
+    <p>합계 : {{sum}}</p>
+    <p>부가세포함: {{taxInclude}}</p>
+    <br>
+    <p>감상평은 10글자이내로 작성하시오.</p>
+    <p v-bind:style="{color:myColor}">남은 글자는 {{remaing}}</p>
+    <textarea v-model="myTxt" v-bind:disabled="disableTxt"></textarea>
+  </div>
+  <script>
+    new Vue({
+      el:'#app',
+      data:{
+        price:2000,
+        cnt:4,
+        myTxt:'',
+        
+      },
+      computed:{ //연산이 필요한 경우 computed 쓰기. return 구문이 꼭 필요함
+        sum:function(){
+          return this.price*this.cnt;
+        },
+        taxInclude:function(){
+          return this.sum * 1.1;
+        },
+        disableTxt:function(){
+          if(this.remaing<1){
+            return true;
+          }
+          return false;
+          // if(this.myTxt.length==10){
+          //   return true;
+          //}
+
+        },
+        remaing:function(){
+            return 10-this.myTxt.length;
+        },
+        myColor:function(){
+          if(this.remaing<2){
+            return 'pink';
+          }else if(this.remaing<4){
+            return 'lightblue';
+          }
+          return 'black';
+        }
+      }
+    })
+  </script>
+</body>
+</html>

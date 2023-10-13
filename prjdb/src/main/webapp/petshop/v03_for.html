@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v03_for.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- <ul v-for="dan in 9">
+      <li v-for="num in 9">{{dan}}*{{num}}={{dan*num}}</li> num은 변수선언한거임, num이란 값을 출력하겠다
+    </ul> -->
+    <ul>
+      <h3>배열을 활용한 반복문</h3>
+      <li v-for="(item,idx) in myArray">{{idx+1}}번 {{item}}</li>
+    </ul>
+    <ul>
+      <h3>객체배열인 경우</h3>
+      <li v-for="bread in objAry">{{bread.name}}의 가격은 {{bread.price}}원</li>
+    </ul>
+  </div>
+  <script>
+    new Vue({
+      el:'#app',
+      data:{
+        myArray:['설악산','한라산','북한산','백두산'],
+        objAry:[
+          {name:'소금빵', price:2500},
+          {name:'뺑오쇼콜라', price:3500},
+          {name:'무화과휘낭시에', price:1500},
+        ]
+
+      }
+    })
+  </script>
+
+  <div id="app2">
+    <h3>관심받고 있는 언어랭킹</h3>
+    <table border="1">
+      <thead>
+        <tr>
+          <th v-for="title in titles">{{title}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in rankings"> <!--row가 ranking에서 가져온 변수의 값-->
+          <td v-for="item in row">{{item}}</td> <!--그 값만큼 돌아서 배열값꺼냄-->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+     new Vue({
+       el:'#app2',
+       data:{
+         titles:['프로그래밍 언어', 2018, 2013, 2008, 2003, 1998],
+         rankings:[
+          ['Java',1,2,1,1,16],
+          ['C',2,1,2,2,1],
+          ['C++',3,4,3,3,2],
+          ['Python',4,7,6,11,23],
+          ['Javascript',7,10,8,7,20]
+
+         ]
+       }
+     })
+  </script>
+  <div id="app3">
+    <ul>
+      <li v-for="item in ary">{{item}}</li>
+    </ul>
+    <button @click="addLast">맨뒤에 추가</button> <!--v-on:click을 @click으로 간단하게 쓸수있음-->
+    <button @click="addObj(2)">세번째에 추가</button>
+    <button @click="delObj(1)">두번째에 삭제</button>
+    <button @click="changeObj(0)">첫번째변경</button>
+
+  </div>
+  <script>
+    new Vue({
+      el:'#app3',
+      data:{
+        ary:['첫번째','두번째','세번째','네번째']
+      },
+      methods:{
+        addLast: function(){
+          this.ary.push('[맨마지막에추가]')
+        },
+        addObj:function(idx){
+          this.ary.splice(idx,0,'[세번째에추가]');
+        },
+        delObj:function(idx){
+          this.ary.splice(idx,1)
+        },
+        changeObj:function(idx){
+          this.ary.splice(idx,1,"[첫번째변경]")
+        }
+
+      }
+    })
+  </script>
+</body>
+</html>

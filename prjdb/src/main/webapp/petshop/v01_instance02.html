@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v01_instance02</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <div id="app01">
+    <!--v-: 지시자-->
+    <p v-text="myText"></p>
+    <p v-html="myText"></p>
+    {{myText}}
+  </div>
+  <script>
+    new Vue({
+      el: '#app01',
+      data: {
+        myText:'<h3>Hello, World</h3>'
+      } 
+    })
+  </script>
+
+  <div id="app02">
+    <p>{{myNum * 2}}</p>
+    <p>{{myTxt+'를 배웁시다.'}}</p><!--'문자열'도 넣을수 있음-->
+    <p>{{myBool}}</p>
+    <p>{{myAry[0]}}</p><p>{{myAry[1]}}</p><p>{{myAry[2]}}</p>
+    <p>{{myObj.name}}{{myObj.price}}</p>
+    <p>{{myFnc()}}</p>
+  </div>
+  <script>
+    new Vue({
+      el:'#app02', //요 위치에 템플릿 생성하겠다
+      data: {
+        myNum: 24,
+        myTxt: 'Vue.js',
+        myBool: true,
+        myAry:['배열','되는지','그려보는중'],
+        myObj:{
+          name:'홍차',
+          price:2000
+        },
+        myFnc: function(){
+          return "함수 리턴~"
+        }
+      }
+    })
+  </script>
+</body>
+</html>

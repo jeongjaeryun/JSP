@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v01_instance03.html</title>
+  <style>
+    .strike-through {
+      text-decoration: line-through;
+      color: rgb(9, 100, 9);
+
+    }
+
+    .dark {
+      background-color: rgb(186, 236, 67);
+    }
+  </style>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+  <div id="app1">
+    <!--v-bind: 태그의 속성값을 지정-->
+    <p><img src="sample.jpeg" style="width: 30%;" alt="사진"></p>
+    <p><img v-bind:src="fileName" v-bind:style="myStyle" alt="사진2"></p>
+    <hr>
+    <a href="https://www.naver.com">NAVER 이동</a>
+    <a v-bind:href="myUrl">{{mySite}}</a>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app1',
+      data: {
+        fileName: 'sample2.jpg',
+        myStyle: { //Style 지정할때 객체로 지정하는 값 넣어줄수 있음
+          width: '40%',
+          border: '1px solid green'
+        },
+        myUrl: 'https://www.daum.net',
+        mySite: 'daum 사이트 이동'
+      }
+    })
+    vm.myUrl = 'https://www.nate.com';
+    vm.mySite = '네이트이동';
+    vm.myStyle.border = '3px solid lightblue';
+  </script>
+
+  <div id="app3">
+    <p id='txt' style="color:lightseagreen; border: 1px solid blue">직접지정</p>
+    <button id="changeBtn">변경</button>
+    <p v-bind:style="myStyle">Vue지정</p>
+    <button v-on:click="changeStyle">변경</button>
+  </div>
+  <script>
+    //2.Vue.js
+    new Vue({
+      el:'#app3',
+      data:{
+        myStyle:{
+          color:'green',
+          border: '1px solid lightgreen'
+        },
+        chStyle:{
+          color:'blue',
+        }
+      },
+      methods:{ //methods 이벤트와 관련있음
+        changeStyle:function(){//버튼에 걸린 함수
+          //this.myStyle = this.chStyle;
+          this.myStyle.color='purple'; //this는 new Vue({})
+          this.myStyle.border='5px solid pink';
+          //document.querySelectorAll('#app3 p')[1].style.color='red'; //('#app3 p')[1] 2번째 p태그
+        }
+      }
+    })
+    //1.자바스크립트
+    document.querySelector('#changeBtn').addEventListener('click',function(){
+      document.querySelector('p#txt').style.color='blue';
+    })
+  </script>
+
+  <div id="app4">
+    <p class="strike-through">클래스 지정</p> 
+    <p v-bind:class="myStyle">v-bind지정</p>
+    <p v-bind:class="[myStyle,myDark]">v-bind복수지정</p>
+    <p v-bind:class="{'strike-through':isON}">ON/OFF</p>
+    
+  </div>
+  <script>
+    new Vue({
+      el:'#app4',
+      data:{
+        myStyle:'strike-through', //클래스 이름 적용 후 그 클래스에 적용된 Style 적용
+        myDark:'dark',//클래스 이름 적용 후 그 클래스에 적용된 Style 적용
+        isON:false
+      }
+    })
+  </script>
+  
+</body>
+
+</html>

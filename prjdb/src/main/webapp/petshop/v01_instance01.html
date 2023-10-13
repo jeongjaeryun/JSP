@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v01_instance01.html</title>
+  <script src="https://unpkg.com/vue@2"></script><!--vue라이브러리 반드시있어야함-->
+</head>
+<body>
+ <!--View-->
+ <div id="view">
+  <p v-text="message"></p> <!--v-text: 지시자-->
+  {{name}}
+  {{product}}
+ </div>
+ 
+ <script>
+  //Model
+  var model = {
+    message: "Hello, World" ,//message라는 속성
+    name: "Hong",
+    product:"Hiiiiiii"
+  }
+  //ViewModel
+  var vm = new Vue({ //Vue 객체가 결과값을 화면에 그려주겠다
+    el: '#view', //데이터를 지정하는 속성 el
+    data: model //model변수를 data 속성에 넣어줌
+  }); //객체선언
+  console.log(vm);
+  vm.$data.message = "Nice, World"; //Vue객체가 가지고있는 data의 message라는 속성을 변경(innerText같은거)
+ </script>
+</body>
+</html>

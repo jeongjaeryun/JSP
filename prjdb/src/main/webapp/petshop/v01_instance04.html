@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+  <!--v-model: 양방향 처리-->
+  <div id="app1">
+    <input type="text" v-model="myName" placeholder="이름을 입력하세요.">
+    <p>이름은 {{myName}}</p>
+    <hr>
+    <textarea cols="30" rows="10" v-model="myTxt"></textarea>
+    <p>문장은, {{myTxt}}</p>
+    <p>문자수는, {{myTxt.length}}자 입니다.</p>
+    <label>
+      <input type="checkbox" v-model="myCheck" true-value="yes" false-value="no">
+      체크박스의 상태값은 {{myCheck}}
+    </label>
+  </div>
+  <script>
+    var vm = new Vue({
+      el:'#app1',
+      data:{
+      myName:'이제노',
+      myTxt:'',
+      myCheck:'no', 
+      }
+    })
+    vm.myName="나재민"
+  </script>
+</body>
+</html>
