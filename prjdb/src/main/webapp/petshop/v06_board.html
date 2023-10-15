@@ -77,7 +77,32 @@
         </tbody>
       </table>
       <button @click="showList">목록보기</button>
+      <button @click="editBoard">글수정</button>
     </div>
+    <!--게시글 수정-->
+    <div id="boardEdit" v-if="boardEdit">
+      <h3>상세</h3>
+      <table id="list">
+        <tbody>
+          <tr>
+            <td style="width:50px;">글번호</td>
+            <td>{{board.no}}</td>
+            <td style="width: 50px;">조회</td>
+            <td>{{board.view}}</td>
+          </tr>
+          <tr>
+            <td style="width: 50px;">글제목</td>
+            <td colspan="3"><input type="text" style="width: 90%;" v-model="title"></td>
+          </tr>
+          <tr style="height:150px;">
+            <td colspan="4"><textarea cols="30" rows="3" style="width: 100%;" v-model="content"></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+      <button @click="showList">목록보기</button>
+      <button @click="saveEdit">글수정</button>
+    </div>
+
   </div>
   <script>
     var boardList = [
@@ -102,6 +127,7 @@
         boardList: true,
         boardWrite: false,
         boardRead: false,
+        boardEdit: false //내가추가한거
 
       },
       methods: {
@@ -109,10 +135,18 @@
           this.boardWrite = true;
           this.boardList = false;
           this.boardRead = false;
+          this.boardEdit= false;
         },
         showList() {
           this.boardList = true;
           this.boardWrite = false;
+          this.boardRead = false;
+          this.boardEdit= false;
+        },
+        showEdit(){
+          this.boardEdit=true;
+          this.boardWrite = false;
+          this.boardList = false;
           this.boardRead = false;
         },
         saveBoard() {
@@ -124,8 +158,8 @@
           //초기화
           //[this.title, this.content]=['',''];
           var brd = {
-           // no: this.boards.length + 1,
-            no: this.boards[this.boards.length-1].no+1,
+            // no: this.boards.length + 1,
+            no: this.boards[this.boards.length - 1].no + 1, //글삭제하고 써도 글번호 이어지게
             title: this.title,
             content: this.content,
             view: 0,
@@ -136,22 +170,39 @@
           this.showList();
           //글번호 배열크기에 +1 boardList.length.push
         },
-        getBoard(board) {
-          board.view=board.view+1
-          this.board= board;
+        getBoard(board) { //제목클릭 상세글 들어가기
+          board.view = board.view + 1 //조회수 count
+          this.board = board;
           this.boardRead = true;
           this.boardList = false;
         },
-        boardDelete(no){
-          this.boards.forEach((item,idx) => {
-            if(item.no==no){
-              this.boards.splice(idx,1);
+        boardDelete(no) {
+          this.boards.forEach((item, idx) => {
+            if (item.no == no) {
+              this.boards.splice(idx, 1);
             }
           });
-         
+
+        },
+        editBoard(board) {
+          this.showEdit();
+        },
+        saveEdit() {
+          this.boards.forEach((item, idx) => {
+            if (item.no == this.board.no) {
+             
+              this.board.title=this.title;
+              this.board.content=this.content;
+              this.board.view+ 1;
+             
+            }
+          })
+          this.title = '';
+          this.content = '';
+          this.boardList=true;
+          this.boardEdit=false;
+
         }
-
-
       }
     })
   </script>
