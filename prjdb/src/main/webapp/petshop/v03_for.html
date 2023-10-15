@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>v03_for.html</title>
   <script src="https://unpkg.com/vue@2"></script>
 </head>
+
 <body>
   <div id="app">
     <!-- <ul v-for="dan in 9">
@@ -22,13 +24,13 @@
   </div>
   <script>
     new Vue({
-      el:'#app',
-      data:{
-        myArray:['설악산','한라산','북한산','백두산'],
-        objAry:[
-          {name:'소금빵', price:2500},
-          {name:'뺑오쇼콜라', price:3500},
-          {name:'무화과휘낭시에', price:1500},
+      el: '#app',
+      data: {
+        myArray: ['설악산', '한라산', '북한산', '백두산'],
+        objAry: [
+          { name: '소금빵', price: 2500 },
+          { name: '뺑오쇼콜라', price: 3500 },
+          { name: '무화과휘낭시에', price: 1500 },
         ]
 
       }
@@ -51,20 +53,20 @@
     </table>
   </div>
   <script>
-     new Vue({
-       el:'#app2',
-       data:{
-         titles:['프로그래밍 언어', 2018, 2013, 2008, 2003, 1998],
-         rankings:[
-          ['Java',1,2,1,1,16],
-          ['C',2,1,2,2,1],
-          ['C++',3,4,3,3,2],
-          ['Python',4,7,6,11,23],
-          ['Javascript',7,10,8,7,20]
+    new Vue({
+      el: '#app2',
+      data: {
+      titles: ['프로그래밍 언어', 2018, 2013, 2008, 2003, 1998],
+      rankings: [
+          ['Java', 1, 2, 1, 1, 16],
+          ['C', 2, 1, 2, 2, 1],
+          ['C++', 3, 4, 3, 3, 2],
+          ['Python', 4, 7, 6, 11, 23],
+          ['Javascript', 7, 10, 8, 7, 20]
 
-         ]
-       }
-     })
+        ]
+      }
+    })
   </script>
   <div id="app3">
     <ul>
@@ -78,26 +80,27 @@
   </div>
   <script>
     new Vue({
-      el:'#app3',
-      data:{
-        ary:['첫번째','두번째','세번째','네번째']
+      el: '#app3',
+      data: {
+        ary: ['첫번째', '두번째', '세번째', '네번째']
       },
-      methods:{
-        addLast: function(){
+      methods: {
+        addLast: function () {
           this.ary.push('[맨마지막에추가]')
         },
-        addObj:function(idx){
-          this.ary.splice(idx,0,'[세번째에추가]');
+        addObj: function (idx) {
+          this.ary.splice(idx, 0, '[세번째에추가]');
         },
-        delObj:function(idx){
-          this.ary.splice(idx,1)
+        delObj: function (idx) {
+          this.ary.splice(idx, 1)
         },
-        changeObj:function(idx){
-          this.ary.splice(idx,1,"[첫번째변경]")
+        changeObj: function (idx) {
+          this.ary.splice(idx, 1, "[첫번째변경]")
         }
 
       }
     })
   </script>
 </body>
+
 </html>

@@ -124,7 +124,8 @@
           //초기화
           //[this.title, this.content]=['',''];
           var brd = {
-            no: this.boards.length + 1,
+           // no: this.boards.length + 1,
+            no: this.boards[this.boards.length-1].no+1,
             title: this.title,
             content: this.content,
             view: 0,
@@ -136,18 +137,18 @@
           //글번호 배열크기에 +1 boardList.length.push
         },
         getBoard(board) {
-          this.board.no = board.no;
-          this.board.title = board.title
-          this.board.content = board.content
-          this.board.view = board.view
+          board.view=board.view+1
+          this.board= board;
           this.boardRead = true;
           this.boardList = false;
         },
         boardDelete(no){
           this.boards.forEach((item,idx) => {
-            
+            if(item.no==no){
+              this.boards.splice(idx,1);
+            }
           });
-          this.boards.splice(no-1,1);
+         
         }
 
 
