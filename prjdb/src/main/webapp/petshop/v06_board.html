@@ -135,23 +135,27 @@
           this.boardWrite = true;
           this.boardList = false;
           this.boardRead = false;
-          this.boardEdit= false;
+          this.boardEdit = false;
         },
         showList() {
           this.boardList = true;
           this.boardWrite = false;
           this.boardRead = false;
-          this.boardEdit= false;
+          this.boardEdit = false;
         },
-        showEdit(){
-          this.boardEdit=true;
+        showEdit() {
+          this.boardEdit = true;
           this.boardWrite = false;
           this.boardList = false;
           this.boardRead = false;
         },
         saveBoard() {
           //글번호??? 조회수:0
-          // let no = this.boards.length+1;
+          // let no = 1; //this.boards.length+1;
+          // 배열의 마지막 위치에 있는 no 속성 : +1
+          // let pos = this.boards.length -1;
+          // no = this.boards[pos].no; 배열 마지막의 글번호
+          // no++;
           // [no,title,content,view] = [no, this.title, this.content, 0]
           // this.boards.push({no,title,content,view});
           // this.showList();     =>>> 교수님이 알려준 간단한 방법
@@ -172,6 +176,11 @@
         },
         getBoard(board) { //제목클릭 상세글 들어가기
           board.view = board.view + 1 //조회수 count
+          // for(let i =0; i<boards.length; i++){
+          //   if(this.boards[i].no == board.no){
+          //     this.boards[i].view++;
+          //   }
+          // }//교수님의 조회수 증가방식
           this.board = board;
           this.boardRead = true;
           this.boardList = false;
@@ -183,6 +192,10 @@
             }
           });
 
+          // this.boards=this.boards.filter((item,idx,ary)=>{
+          //   return item.no != no;
+          // }) 교수님방식
+
         },
         editBoard(board) {
           this.showEdit();
@@ -190,17 +203,17 @@
         saveEdit() {
           this.boards.forEach((item, idx) => {
             if (item.no == this.board.no) {
-             
-              this.board.title=this.title;
-              this.board.content=this.content;
-              this.board.view+ 1;
-             
+
+              this.board.title = this.title;
+              this.board.content = this.content;
+              this.board.view + 1;
+
             }
           })
           this.title = '';
           this.content = '';
-          this.boardList=true;
-          this.boardEdit=false;
+          this.boardList = true;
+          this.boardEdit = false;
 
         }
       }

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+
+<template id="listTemplate">
+  <div>
+    <ul><!--list-component-->
+      <li v-for="item in findItems">{{item}}</li>
+    </ul>
+  </div>
+</template>
+<script>
+  Vue.component('list-component',{
+    template:'#listTemplate',
+    data:function(){
+      return{
+        
+      }
+    },
+    methods:{
+      findItems:function(){
+        let resultAry=[]; //반환할 배열을 담은 함수
+        if(this.searchWords){ //값이 있으면(true)
+         resultAry= this.dataList.filter(item=>{ //filter
+            return item.indexOf(this.searchWords) > -1; //indexOf 찾는값이 있음 1반환 없음 -1반환
+          });
+        }else{
+           resultAry=this.dataList; //전체목록을 배열에 넣음
+        }
+        return resultAry;
+      //  var word= dataList.indexOf(this.searchWords.value)
+      //   this.findItems.push(word)
+       // return 
+      } 
+    }
+  })
+</script>
+<!--search-component-->
+  <template id="searchTemplate">
+    <div>
+      <input type="text" v-model.trim="searchWords" v-on:keyup.enter="keyupEvent"><!--search-component-->
+    
+    </div>
+  </template>
+  <script>
+    Vue.component('search-component', {
+      template: '#searchTemplate',
+      data: function () {
+        return{
+          searchWords:''
+
+        }
+      },
+      methods:{
+        keyupEvent:function(e){
+          if(this.searchWords.length>=2){
+            this.$emit('search',this.searchWords)
+          }else{
+            this.$emit('search','')
+          }
+        }
+        
+      }
+    })
+  </script>
+
+
+  <!--search-list-component-->
+  <template id="searchlistTemplate">
+    <div>
+      <search-component placeholder="두글자이상입력하세요" v-on:search="searchEvent"></search-component>
+      <list-component v-bind:datas="dataList"></list-component>
+    </div>
+  </template>
+  <script>
+    Vue.component('search-list-component', {
+      template: '#searchlistTemplate',
+      data: function () {
+        return {
+          dataList: ['nctdream', 'newjeans', 'ive', 'wayv', 'stayc']
+        }
+      },
+      methods: {
+        searchEvent: function (searchWords) {
+          console.log('searchEvent');
+          // if (searchWords == '') {
+          //   this.dataList = [];
+          // } else {
+          //   this.dataList;
+          // }
+        }
+      }
+    })
+  </script>
+
+  <!--Root Component-->
+  <div id="app">
+    <search-list-component></search-list-component>
+    <!--search-list-component : dataList 데이터 여기서-->
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      
+    })
+  </script>
+</body>
+
+</html>

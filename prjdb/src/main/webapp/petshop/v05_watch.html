@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v05_watch.html</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+
+<body>
+  <div id="app">
+    x:<input type="number" v-model="x"><br>
+    y:<input type="number" v-model="y"><br>
+    결과: {{sum}}
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        x: 0,
+        y: 0,
+        sum: 0
+      },
+      watch: { //값이 바뀔때마다 이벤트
+        x: function (aferValue, beforeValue) {
+          console.log('x값: ', aferValue, beforeValue)
+          this.sum = Number(aferValue) + Number(this.y);
+        },
+        y: function (aferValue, beforeValue) {
+          console.log('y값: ', aferValue, beforeValue) 
+          this.sum = Number(aferValue) + Number(this.x);
+        },
+      }
+    })
+  </script>
+</body>
+
+</html>

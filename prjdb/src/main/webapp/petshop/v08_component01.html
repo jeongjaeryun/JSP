@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+
+</head>
+
+<body>
+  <template id="timeTemplate">
+    <div> <!--템플릿에 들어가는 가장 상위요소가 하나여야함 여기선 div-->
+      <p></p>
+      <span>현재시간 {{currentTime}}</span> <!--속성들이 timpTemplate=> Vue.Component에 속해있음-->
+      <button v-on:click="timeClick">현재시간</button>
+    </div>
+  </template>
+  <script>
+    Date.prototype.timeFormat = function () {
+      //yyyy-MM-dd HH:mm:ss
+      console.log(this); //Date객체에서 this는 현재시간 값.
+      let yyyy = this.getFullYear(); //2023 연도값 가져옴
+      let mm = this.getMonth()+1; //10월이면 9란 값을 반환함 +1 해줘야함
+      let dd = this.getDate();// 日 반환
+      let hh = this.getHours(); //시
+      let mi = this.getMinutes();//분
+      let ss = '0'+this.getSeconds();//초
+
+      return yyyy+'-'+mm+'-'+dd+' '+hh+':'+mi+':'+ss.slice(-2); //slice 뒤에서부터 두자리 자름
+    }
+
+    //전역 component
+    Vue.component('time-component', {
+      template: '#timeTemplate',
+      data: function () {
+        return { //리턴되는 함수의 객체에 선언되어야함
+          currentTime: (new Date()).timeFormat() //newDate()랑 같다고함 //현재시간 정의
+        }
+      },
+      methods: {
+        timeClick: function () {
+          this.currentTime = (new Date()).timeFormat();
+        }
+      }
+    })
+  </script>
+
+  <div id="app">
+    <time-component></time-component>
+    <time-component></time-component>
+    <my-component></my-component><!--지역 component-->
+  </div>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        ctime:''
+      },
+      components:{ //지역 component
+        'my-component':{
+          template:'<div>Hello, 난 #app My component</div>'
+        }
+      }
+    })
+
+  </script>
+  <div id="other">
+    <time-component></time-component>
+    <my-component></my-component><!--지역 component-->
+  </div>
+
+  <script>
+    new Vue({
+      el:'#other',
+      data:{
+        ctime:''
+      },
+      components:{ //지역 component
+        'my-component':{
+          template: '<div>Hello 난 #other의 my component</div>'
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

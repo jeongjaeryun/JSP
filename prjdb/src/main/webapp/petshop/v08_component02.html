@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+</head>
+<body>
+
+  <template id="listTemp">
+    <li>{{myMessage}}, {{myCount}}</li>
+  </template>
+  <script>
+    Vue.component('list-component',{ //첫번째는 ('component태그 이름', {두번째는 옵션들})
+      template:'#listTemp',
+      // props:['myMessage','myCount'] //배열의 값으로 선언. 카멜케이스, listcomponent안에 있는 my-message,my-count속성 값 가져오기
+      props:{
+        myMessage:{
+          type: String,
+          default:'안녕하세요',
+        },
+        myCount:{
+          type: Number,
+          required:true
+        },
+        countries:{
+          type: Array,
+          default:['대한민국']
+        }
+      }
+    })
+  </script>
+
+  <div id="app">
+    <ul>
+      <list-component my-message="Hello" v-bind:my-count="100" v-bind:countries="['미국','캐나다','영국']"></list-component> <!--타입 지정해서 넘기려면 v-bind써야함-->
+      <list-component my-message="배고프다" v-bind:my-count="150" v-bind:countries="['베트남']"></list-component>
+      <list-component my-message="빨리부대찌개" v-bind:my-count="200" v-bind:countries="['중국','타이완']"></list-component>
+      <list-component v-bind:my-count="300"></list-component>
+
+    </ul>
+  </div>
+  <script>
+    new Vue({
+      el:'#app',
+      data:{
+
+      }
+    })
+  </script>
+</body>
+</html>

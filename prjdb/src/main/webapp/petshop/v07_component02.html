@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=\, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@2"></script>
+
+</head>
+<body>
+  <h3>template 태그 활용</h3>
+  <div id="app">
+    <hello-component msg="world"></hello-component>
+    <hello-component msg="Friend"></hello-component>
+    <hello-component msg="You"></hello-component>
+  </div>
+
+  <!--1.template 태그 활용-->
+   <template id="helloTemplate">
+    <div>Hello,World</div>
+   </template>
+
+   <!--2.template script 활용 -->
+   <!-- <script type="text/x-template" id="helloTemplate">
+      <div>Hello, World</div>
+   </script> -->
+
+   <script>
+    Vue.component('hello-component',{
+      template:'#helloTemplate'
+    })
+
+    new Vue({
+      el:'#app'
+    })
+   </script>
+</body>
+</html>

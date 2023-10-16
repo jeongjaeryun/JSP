@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+
+  </style>
+  <script src="https://unpkg.com/vue@2"></script>
+
+</head>
+
+<body>
+
+  <!--child template-->
+  <template id="child-template">
+    <div><!--제일 상위요소 하나만 있어야함-->
+      <button v-on:click="clickEvent" v-bind:data-lang="buttonInfo.value">{{buttonInfo.text}}</button>
+    </div>
+  </template>
+  <!--child component-->
+  <script>
+    Vue.component('child-component',{
+      template:'#child-template',
+      methods:{
+        clickEvent(e){
+          //console.log('clickEvent');
+          this.$emit('timeclick',e.target.innerText, e.target.dataset.lang); //이벤트 발신 -> 상위컴포넌트 수신, e.target은 버튼 //timeclickEvent에 두개의 값을 넘기겠다 매개값으로 전달됨
+          // console.log(this);
+          // this.$parent.msg=e.target.innerText+', '+e.target.dataset.lang 하위에서 값을 바꾸는거 보다 위 처럼 상위 컴포넌트에서 처리하는게 나중에 찾기쉬움
+        }
+      },
+      props:['buttonInfo'] //'button-info' => 자바스크립트 타입으로 buttonInfo
+    })
+  </script>
+
+  <!--parent template-->
+  <template id="parent-template">
+    <div>
+      <child-component v-for="btn in buttons" v-bind:button-info="btn" 
+      v-on:timeclick="timeclickEvent"></child-component> <!--button info라는 속성에 v-for 도는 btn을 넣음, btn에는 buttons의 text와 value가 들어가있음--> 
+      <br>
+      <div>{{msg}}</div>
+    </div>
+  </template>
+
+  <!--parent component-->
+  <script>
+    Vue.component('parent-component',{
+      template:'#parent-template',
+      props: ['buttons'], //props 상위요소에서 하위요소 값 넘겨줄때 v-bind:buttons를 받아옴
+      data:function(){
+        return{
+        msg:''
+      }
+    },
+      methods:{
+        timeclickEvent(k,v){ //this.$emit('timeclick',e.target.innerText, e.target.dataset.lang); 여기서 보낸 이벤트를 받음 e.target어쩌고 두개가 k, v
+          console.log('timeclickEvent',k,v);
+          this.msg=v;
+
+        }
+      }
+    })
+  </script>
+  <!--Root Component-->
+  <div id="app">
+    <parent-component v-bind:buttons="buttonlist"></parent-component>
+  </div>
+  <script>
+    //Root Component
+    new Vue({
+      el:'#app',
+      data:{
+        buttonlist:[
+          {text:'Hello', value:'영어'},
+          {text:'신짜오', value:'베트남'},
+          {text:'니하오', value:'중국어'},
+
+        ]
+      }
+    })
+  </script>
+</body>
+</html>

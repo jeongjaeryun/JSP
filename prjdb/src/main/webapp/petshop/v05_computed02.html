@@ -8,8 +8,9 @@
 </head>
 <body>
   <div id="app">
-    <input v-model="searchWords">
-    <ul>
+    <!--search-list-component datalist 여기서 가지고 있도록-->
+    <input v-model="searchWords"><!--search-component-->
+    <ul><!--list-component-->
       <li v-for="item in findItems">{{item}}</li>
     </ul>
   </div> 
