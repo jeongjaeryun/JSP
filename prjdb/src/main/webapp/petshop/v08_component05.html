@@ -79,7 +79,7 @@
           if(this.name.length>=2){
             this.$emit('search', this.name) //v-on:search="searchEvent" search 이벤트 실행시켜줘
           }else{
-            this.$emit('search','')
+            this.$emit('search','') //발신
           }
         }
       }
